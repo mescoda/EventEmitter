@@ -32,6 +32,14 @@ var EventEmitter = (function() {
 
     EventEmitter.prototype.removeEvent = function(name, handler) {
         var events = this.events[name] || [];
+        if(arguments.length === 0) {
+            this.removeAllEvents();
+            return this;
+        }
+        if(arguments.length === 1) {
+            this.removeAllEvents(name);
+            return this;
+        }
         for(var i = 0, iLen = events.length; i < iLen; i++) {
             if(events[i].handler == handler) {
                 events[i] = null;
