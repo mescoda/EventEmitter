@@ -18,6 +18,8 @@ var EventEmitter = (function() {
         return this;
     };
 
+
+
     EventEmitter.prototype.trigger = function(/*name, param1, param2...*/) {
         var name = arguments[0],
             events = this.events[name] || [],
@@ -31,7 +33,7 @@ var EventEmitter = (function() {
     EventEmitter.prototype.removeEvent = function(name, handler) {
         var events = this.events[name] || [];
         for(var i = 0, iLen = events.length; i < iLen; i++) {
-            if(events[i].handler = handler) {
+            if(events[i].handler == handler) {
                 events[i] = null;
             }
         }
@@ -46,5 +48,6 @@ var EventEmitter = (function() {
         }
         return this;
     };
+
     return EventEmitter;
 })();
