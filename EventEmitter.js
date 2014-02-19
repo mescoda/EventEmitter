@@ -18,7 +18,15 @@ var EventEmitter = (function() {
         return this;
     };
 
-
+    EventEmitter.prototype.once = function(name, handler, context) {
+        var self = this;
+        function temp() {
+            self.removeEvent(name, temp);
+            handler.call(this);
+        }
+        handler._remove = temp;
+        this.bind(name, temp);
+    };
 
     EventEmitter.prototype.trigger = function(/*name, param1, param2...*/) {
         var name = arguments[0],
@@ -33,26 +41,18 @@ var EventEmitter = (function() {
     EventEmitter.prototype.removeEvent = function(name, handler) {
         var events = this.events[name] || [];
         if(arguments.length === 0) {
-            this.removeAllEvents();
+            this.events = {};
             return this;
         }
         if(arguments.length === 1) {
+            events = [];
             this.removeAllEvents(name);
             return this;
         }
         for(var i = 0, iLen = events.length; i < iLen; i++) {
-            if(events[i].handler == handler) {
-                events[i] = null;
+            if(events[i].handler == handler || events[i].handler._remove == handler) {
+                events.splice(i, 1)
             }
-        }
-        return this;
-    };
-
-    EventEmitter.prototype.removeAllEvents = function(name) {
-        if(name) {
-            this.events[name] = [];
-        } else {
-            this.events = {};
         }
         return this;
     };
