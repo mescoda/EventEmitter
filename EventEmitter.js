@@ -23,7 +23,7 @@ var EventEmitter = (function() {
             events = this.events[name] || [],
             params = Array.prototype.slice.call(arguments, 1);
         for(var i = 0, iLen = events.length; i < iLen; i++) {
-            events[i].apply(events[i].context || this, params);
+            events[i].handler.apply(events[i].context || this, params);
         }
         return this;
     };
@@ -46,4 +46,5 @@ var EventEmitter = (function() {
         }
         return this;
     };
+    return EventEmitter;
 })();
