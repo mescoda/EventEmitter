@@ -26,6 +26,7 @@ var EventEmitter = (function() {
         }
         handler._remove = temp;
         this.bind(name, temp);
+        return this;
     };
 
     EventEmitter.prototype.trigger = function(/*name, param1, param2...*/) {
