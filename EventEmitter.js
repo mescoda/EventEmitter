@@ -45,8 +45,7 @@ var EventEmitter = (function() {
             return this;
         }
         if(arguments.length === 1) {
-            events = [];
-            this.removeAllEvents(name);
+            this.events[name] = [];
             return this;
         }
         for(var i = 0, iLen = events.length; i < iLen; i++) {
