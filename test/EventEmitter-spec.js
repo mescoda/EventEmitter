@@ -12,19 +12,29 @@ describe('EventEmitter', function() {
         });
         it('multi bind', function() {
             var em = new EventEmitter(),
-                test = [1];
+                result = [1];
             em.bind('test', function() {
-                test.push(2);
+                result.push(2);
             });
             em.bind('test', function()  {
-                test.push(3);
+                result.push(3);
             });
             em.trigger('test');
-            console.log(test);
-            expect(test).toEqual([1, 2, 3]);
+            expect(result).toEqual([1, 2, 3]);
         });
         it('bind with param', function() {
-
+            var em = new EventEmitter(),
+                result = [];
+            em.bind('test', function(param) {
+                result.push(param);
+            });
+            em.trigger('test', 'first');
+            expect(result).toEqual(['first']);
+            em.bind('foo', function(param1, param2) {
+                result.push(param1, param2);
+            });
+            em.trigger('foo', 'second', 'third');
+            expect(result).toEqual(['first', 'second', 'third']);
         });
     });
 });
