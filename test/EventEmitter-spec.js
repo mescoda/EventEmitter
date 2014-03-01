@@ -48,6 +48,23 @@ describe('EventEmitter', function() {
             em.trigger('bar');
             expect(result).toEqual(['first']);
         });
+        it('bind inside function', function() {
+            var em = new EventEmitter(),
+                result = [];
+            var param = 'out';
+            var object = {
+                param: 'in',
+                init: function() {
+                    var self = this;
+                    em.bind('foo', function() {
+                        result.push(self.param);
+                    });
+                }
+            };
+            object.init();
+            em.trigger('foo');
+            expect(result).toEqual(['in']);
+        });
     });
     describe('event remove', function() {
         it('remove whole event', function() {
@@ -96,6 +113,22 @@ describe('EventEmitter', function() {
             em.trigger('bar');
             em.trigger('foo');
             expect(result).toEqual(['first', 'second']);
+        });
+        it('remove inside function', function() {
+            var em = new EventEmitter(),
+                result = [];
+            var a = function() {
+                em.off('foo', b);
+            };
+            var b = function() {
+                result.push(1);
+            };
+            em.on('foo', a);
+            em.on('foo', b);
+            em.emit('foo');
+            expect(result).toEqual([1]);
+            em.emit('foo');
+            expect(result).toEqual([1]);
         });
     });
     describe('event once', function() {
