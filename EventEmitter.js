@@ -2,6 +2,7 @@ var EventEmitter = (function() {
     function EventEmitter() {
         this.events = {};
         this.on = this.bind;
+        this.off = this.removeEvent;
         this.emit = this.trigger;
     }
 
