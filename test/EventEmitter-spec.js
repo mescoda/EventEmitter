@@ -116,5 +116,20 @@ describe('EventEmitter', function() {
             em.trigger('foo');
             expect(result).toEqual([1, 'first', 2, 'first']);
         });
+        it('bind once width fn name', function() {
+            var em = new EventEmitter(),
+                result = [];
+            var handler = function() {
+                result.push(1);
+            };
+            em.once('bar', handler);
+            em.bind('bar', function() {
+                result.push('first');
+            });
+            em.trigger('bar');
+            expect(result).toEqual([1, 'first']);
+            em.trigger('bar');
+            expect(result).toEqual([1, 'first', 'first']);
+        });
     });
 });
