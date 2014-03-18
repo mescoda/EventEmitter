@@ -204,5 +204,19 @@ describe('EventEmitter', function() {
             em.trigger('bar');
             expect(result).toEqual([1, 1]);
         });
+        it('once with removeEvent', function() {
+            var em = new EventEmitter(),
+                result = [];
+            var fn = function() {
+                result.push(1);
+            };
+            em.once('foo', fn);
+            em.once('bar', fn);
+            em.removeEvent('foo', fn);
+            em.trigger('foo');
+            expect(result).toEqual([]);
+            em.trigger('bar');
+            expect(result).toEqual([1]);
+        });
     });
 });
