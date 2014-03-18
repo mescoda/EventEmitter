@@ -25,6 +25,7 @@ var EventEmitter = (function() {
             self.removeEvent(name, temp);
             handler.apply(this, arguments);
         }
+        temp.handler = handler;
         this.bind(name, temp, context);
         return this;
     };
@@ -52,7 +53,7 @@ var EventEmitter = (function() {
             return this;
         }
         for(var i = 0, iLen = events.length; i < iLen; i++) {
-            if(events[i].handler === handler) {
+            if(events[i].handler === handler || events[i].handler.handler === handler) {
                 index = i;
             }
         }
