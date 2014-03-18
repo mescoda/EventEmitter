@@ -149,7 +149,7 @@ describe('EventEmitter', function() {
             em.trigger('foo');
             expect(result).toEqual([1, 'first', 2, 'first']);
         });
-        it('bind once width fn name', function() {
+        it('bind once with fn name', function() {
             var em = new EventEmitter(),
                 result = [];
             var handler = function() {
@@ -163,6 +163,24 @@ describe('EventEmitter', function() {
             expect(result).toEqual([1, 'first']);
             em.trigger('bar');
             expect(result).toEqual([1, 'first', 'first']);
+        });
+        it('bind once with context', function() {
+            var em = new EventEmitter(),
+                result = [];
+            var object = {
+                lor: 'first',
+                zol: 1
+            };
+            em.bind('foo', function() {
+                result.push(this.lor);
+            }, object);
+            em.once('foo', function() {
+                result.push(this.zol);
+            }, object);
+            em.trigger('foo');
+            expect(result).toEqual(['first', 1]);
+            em.trigger('foo');
+            expect(result).toEqual(['first', 1, 'first']);
         });
     });
 });
