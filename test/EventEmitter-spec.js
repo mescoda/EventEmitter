@@ -74,7 +74,7 @@ describe('EventEmitter', function() {
                 result.push('first');
             });
             em.trigger('foo');
-            em.removeEvent('foo');
+            em.remove('foo');
             em.trigger('foo');
             expect(result).toEqual(['first']);
         });
@@ -93,7 +93,7 @@ describe('EventEmitter', function() {
             em.bind('bar', handler);
             em.trigger('bar', 'second');
             expect(result).toEqual(['first', 'second', 'ending']);
-            em.removeEvent('bar', handler);
+            em.remove('bar', handler);
             em.trigger('bar', 'second');
             expect(result).toEqual(['first', 'second', 'ending', 'first', 'second']);
         });
@@ -109,7 +109,7 @@ describe('EventEmitter', function() {
             em.trigger('bar');
             em.trigger('foo');
             expect(result).toEqual(['first', 'second']);
-            em.removeEvent();
+            em.remove();
             em.trigger('bar');
             em.trigger('foo');
             expect(result).toEqual(['first', 'second']);
@@ -204,7 +204,7 @@ describe('EventEmitter', function() {
             em.trigger('bar');
             expect(result).toEqual([1, 1]);
         });
-        it('once with removeEvent', function() {
+        it('once with remove', function() {
             var em = new EventEmitter(),
                 result = [];
             var fn = function() {
@@ -212,7 +212,7 @@ describe('EventEmitter', function() {
             };
             em.once('foo', fn);
             em.once('bar', fn);
-            em.removeEvent('foo', fn);
+            em.remove('foo', fn);
             em.trigger('foo');
             expect(result).toEqual([]);
             em.trigger('bar');

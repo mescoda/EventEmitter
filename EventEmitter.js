@@ -2,7 +2,7 @@ var EventEmitter = (function() {
     function EventEmitter() {
         this.events = {};
         this.on = this.bind;
-        this.off = this.removeEvent;
+        this.off = this.remove;
         this.emit = this.trigger;
     }
 
@@ -22,7 +22,7 @@ var EventEmitter = (function() {
     EventEmitter.prototype.once = function(name, handler, context) {
         var self = this;
         function temp() {
-            self.removeEvent(name, temp);
+            self.remove(name, temp);
             handler.apply(this, arguments);
         }
         temp.handler = handler;
@@ -41,7 +41,7 @@ var EventEmitter = (function() {
         return this;
     };
 
-    EventEmitter.prototype.removeEvent = function(name, handler) {
+    EventEmitter.prototype.remove = function(name, handler) {
         var events = this.events[name] || [],
             index = -1;
         if(arguments.length === 0) {
