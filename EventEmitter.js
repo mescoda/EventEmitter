@@ -54,11 +54,9 @@ var EventEmitter = (function() {
         }
         for(var i = 0, iLen = events.length; i < iLen; i++) {
             if(events[i].handler === handler || events[i].handler.handler === handler) {
-                index = i;
+                events.splice(i, 1);
+                break;
             }
-        }
-        if(index !== -1) {
-            events.splice(index, 1)
         }
         return this;
     };
