@@ -26,7 +26,7 @@ var EventEmitter = (function() {
             handler.call(this);
         }
         handler._remove = temp;
-        this.bind(name, temp);
+        this.bind(name, temp, context);
         return this;
     };
 
