@@ -192,5 +192,17 @@ describe('EventEmitter', function() {
             em.trigger('bar', 2);
             expect(result).toEqual([1]);
         });
+        it('once different with same fn', function() {
+            var em = new EventEmitter(),
+                result = [];
+            var fn = function() {
+                result.push(1);
+            };
+            em.once('foo', fn);
+            em.once('bar', fn);
+            em.trigger('foo');
+            em.trigger('bar');
+            expect(result).toEqual([1, 1]);
+        });
     });
 });
